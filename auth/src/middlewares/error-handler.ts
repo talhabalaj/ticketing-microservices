@@ -3,8 +3,12 @@ import { CustomError } from '../errors/custom-error'
 
 
 export const errorHandler = (err: Error, req: Request, res: Response, next: NextFunction) => {
-  if (res.writableEnded)
+  console.error(err)
+
+  
+  if (res.writableFinished)
     return
+
 
   if (err instanceof CustomError)
     res.status(err.statusCode).send({
