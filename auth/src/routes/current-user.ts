@@ -7,7 +7,6 @@ export const currentUserRouter = Router();
 currentUserRouter.get(
   "/api/users/currentuser",
   currentUser,
-  requireAuth,
   (req, res) => {
     res.json({
       currentUser: req.currentUser,
