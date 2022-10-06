@@ -1,22 +1,20 @@
-import 'express-async-errors'
-import express, { json } from 'express'
-import session from 'cookie-session'
-
-import { errorHandler } from "./middlewares/error-handler";
+import "express-async-errors";
+import express, { json } from "express";
+import session from "cookie-session";
+import { NotFoundError } from "@tj-tickets/common";
+import { errorHandler } from "@tj-tickets/common";
 
 import { currentUserRouter } from "./routes/current-user";
 import { signInRouter } from "./routes/signin";
 import { signUpRouter } from "./routes/signup";
 import { signOutRouter } from "./routes/signout";
 
-import { NotFoundError } from "./errors/not-found-error";
-
 const app = express();
 
 app.set("trust proxy", 1); // trust first proxy
 app.use(
   session({
-    secure: process.env.NODE_ENV !== "test", 
+    secure: process.env.NODE_ENV !== "test",
     signed: false,
   })
 );
@@ -32,6 +30,5 @@ app.all("*", () => {
 });
 
 app.use(errorHandler);
-
 
 export default app;

@@ -7,7 +7,7 @@ export default function MyApp({ Component, pageProps, currentUser }) {
   return (
     <div>
       <Header currentUser={currentUser} />
-      <Component {...pageProps} />;
+      <Component {...pageProps} />
     </div>
   );
 }

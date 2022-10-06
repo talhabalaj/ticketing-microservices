@@ -1,15 +1,10 @@
 import { Router } from "express";
-import { currentUser } from "../middlewares/current-user";
-import { requireAuth } from "../middlewares/require-auth";
+import { currentUser } from "@tj-tickets/common";
 
 export const currentUserRouter = Router();
 
-currentUserRouter.get(
-  "/api/users/currentuser",
-  currentUser,
-  (req, res) => {
-    res.json({
-      currentUser: req.currentUser,
-    });
-  }
-);
+currentUserRouter.get("/api/users/currentuser", currentUser, (req, res) => {
+  res.json({
+    currentUser: req.currentUser,
+  });
+});

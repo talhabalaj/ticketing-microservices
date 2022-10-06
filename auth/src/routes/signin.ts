@@ -1,8 +1,7 @@
 import { Request, Response, Router } from "express";
 import { body } from "express-validator";
-import jwt from 'jsonwebtoken';
-import { BadRequestError } from "../errors/bad-request-error";
-import validateRequest from "../middlewares/validate-request";
+import jwt from "jsonwebtoken";
+import { validateRequest, BadRequestError } from "@tj-tickets/common";
 import { User } from "../models/user";
 import { Password } from "../services/password";
 
@@ -24,7 +23,10 @@ signInRouter.post(
       throw new BadRequestError("Invalid credentials");
     }
 
-    const token = jwt.sign({ id: user._id, email: user.email, }, process.env.JWT_KEY!)
+    const token = jwt.sign(
+      { id: user._id, email: user.email },
+      process.env.JWT_KEY!
+    );
 
     req.session = { jwt: token };
 
