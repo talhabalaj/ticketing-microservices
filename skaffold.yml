@@ -2,25 +2,33 @@ apiVersion: skaffold/v2beta29
 kind: Config
 build:
   artifacts:
-  - image: talhabalaj/ticketing-auth
-    context: auth
-    sync:
-      manual:
-      - src: 'src/**/*.ts'
-        dest: .
-    docker:
-      dockerfile: Dockerfile
-  - image: talhabalaj/ticketing-client
-    context: client
-    sync:
-      manual:
-      - src: '**/*.js'
-        dest: .
-    docker:
-      dockerfile: Dockerfile
+    - image: talhabalaj/ticketing-tickets
+      context: tickets
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: talhabalaj/ticketing-auth
+      context: auth
+      sync:
+        manual:
+          - src: "src/**/*.ts"
+            dest: .
+      docker:
+        dockerfile: Dockerfile
+    - image: talhabalaj/ticketing-client
+      context: client
+      sync:
+        manual:
+          - src: "**/*.js"
+            dest: .
+      docker:
+        dockerfile: Dockerfile
   local:
     push: false
 deploy:
   kubectl:
     manifests:
-    - ./infra/k8s/*
+      - ./infra/k8s/*
