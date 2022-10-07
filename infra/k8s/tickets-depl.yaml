@@ -12,16 +12,18 @@ spec:
         app: tickets
     spec:
       containers:
-      - name: tickets
-        image: talhabalaj/ticketing-tickets:latest
-        env: 
-          - name: JWT_KEY
-            valueFrom:
-              secretKeyRef:
-                name: jwt-secret
-                key: JWT_KEY
-        ports:
-        - containerPort: 3000
+        - name: tickets
+          image: talhabalaj/ticketing-tickets:latest
+          env:
+            - name: MONGO_URI
+              value: mongodb://tickets-mongo-srv:27017/tickets
+            - name: JWT_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secret
+                  key: JWT_KEY
+          ports:
+            - containerPort: 3000
 ---
 apiVersion: v1
 kind: Service
@@ -31,6 +33,6 @@ spec:
   selector:
     app: tickets
   ports:
-  - port: 3000
-    targetPort: 3000
-    protocol: TCP
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP

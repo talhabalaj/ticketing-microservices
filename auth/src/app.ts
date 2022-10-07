@@ -1,8 +1,11 @@
 import "express-async-errors";
 import express, { json } from "express";
 import session from "cookie-session";
-import { NotFoundError } from "@tj-tickets/common";
-import { errorHandler } from "@tj-tickets/common";
+import {
+  currentUser,
+  errorHandler,
+  NotFoundError,
+} from "@tj-tickets/common";
 
 import { currentUserRouter } from "./routes/current-user";
 import { signInRouter } from "./routes/signin";
@@ -19,6 +22,8 @@ app.use(
   })
 );
 app.use(json());
+
+app.use(currentUser)
 
 app.use(currentUserRouter);
 app.use(signInRouter);

@@ -1,8 +1,9 @@
 import "express-async-errors";
 import express, { json } from "express";
 import session from "cookie-session";
-import { NotFoundError } from "@tj-tickets/common";
+import { currentUser, NotFoundError } from "@tj-tickets/common";
 import { errorHandler } from "@tj-tickets/common";
+import { createTicketRouter } from "./routes/new";
 
 const app = express();
 
@@ -14,6 +15,9 @@ app.use(
   })
 );
 app.use(json());
+app.use(currentUser)
+
+app.use(createTicketRouter);
 
 app.all("*", () => {
   throw new NotFoundError();
