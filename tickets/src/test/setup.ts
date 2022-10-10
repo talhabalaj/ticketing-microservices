@@ -1,16 +1,17 @@
-import request from "supertest";
 import { MongoMemoryServer } from "mongodb-memory-server";
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import jwt from "jsonwebtoken";
 
 declare global {
   var signIn: () => string[];
 }
 
+jest.setTimeout(60000);
+
 global.signIn = () => {
   // Build a JWT Payload { id, email }
   const payload = {
-    id: "tseasfdasfasdfasdf",
+    id: new Types.ObjectId().toHexString(),
     email: "test@test.com",
   };
 

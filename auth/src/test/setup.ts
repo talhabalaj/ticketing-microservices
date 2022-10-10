@@ -7,6 +7,8 @@ declare global {
   var signIn: () => Promise<string[]>;
 }
 
+jest.setTimeout(60000);
+
 global.signIn = async () => {
   const response = await request(app)
     .post("/api/users/signup")
