@@ -1,7 +1,9 @@
-import nats, { Message } from "node-nats-streaming";
+import nats, { Message, Stan } from "node-nats-streaming";
 import crypto from "crypto";
+import { TicketCreatedListener } from "./events/ticket-created-listener";
 
 console.clear();
+
 
 function getRandomClientId() {
   return crypto.randomUUID();
@@ -14,11 +16,14 @@ const stan = nats.connect("ticketing", getRandomClientId(), {
 stan.on("connect", () => {
   console.log("Listener connected to NATS");
 
-  const subscription = stan.subscribe("ticket:created", "group");
-
-  subscription.on("message", (msg: Message) => {
-    console.log(msg.getData());
+  stan.on("close", () => {
+    console.log("Connection Closed.");
+    process.exit();
   });
+
+  new TicketCreatedListener(stan).listen();
 });
 
-console.log("hello :)");
+process.on("SIGINT", () => stan.close());
+process.on("SIGTERM", () => stan.close());
+
